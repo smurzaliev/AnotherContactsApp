@@ -66,6 +66,7 @@ class AddContactController: UIViewController {
         view.withExamplePlaceholder = true
         view.withDefaultPickerUI = true
         view.withFlag = true
+        
         view.partialFormatter.defaultRegion = "KG"
         view.isPartialFormatterEnabled = true
         view.partialFormatter.maxDigits = 9

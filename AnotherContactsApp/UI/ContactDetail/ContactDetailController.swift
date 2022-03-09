@@ -15,7 +15,6 @@ class ContactDetailController: UIViewController, RTCustomAlertDelegate {
     let realm = try! Realm()
     
     // Элементы NavigationBar
-    
     private lazy var topNavbarView: UIView = {
         let view = UIView()
         
@@ -349,7 +348,7 @@ class ContactDetailController: UIViewController, RTCustomAlertDelegate {
         
         view.addSubview(callLabelImage1)
         callLabelImage1.snp.makeConstraints { make in
-            make.top.equalTo(callLabelNumber1.snp.top)
+            make.top.equalTo(callLabelNumber1.snp.top).offset(3)
             make.left.equalTo(callLabelNumber1.snp.right).offset(5)
         }
         
@@ -373,7 +372,7 @@ class ContactDetailController: UIViewController, RTCustomAlertDelegate {
         
         view.addSubview(callLabelImage2)
         callLabelImage2.snp.makeConstraints { make in
-            make.top.equalTo(callLabelNumber2.snp.top)
+            make.top.equalTo(callLabelNumber2.snp.top).offset(3)
             make.left.equalTo(callLabelNumber2.snp.right).offset(5)
         }
         
@@ -397,7 +396,7 @@ class ContactDetailController: UIViewController, RTCustomAlertDelegate {
         
         view.addSubview(callLabelImage3)
         callLabelImage3.snp.makeConstraints { make in
-            make.top.equalTo(callLabelNumber3.snp.top)
+            make.top.equalTo(callLabelNumber3.snp.top).offset(3)
             make.left.equalTo(callLabelNumber3.snp.right).offset(5)
         }
         

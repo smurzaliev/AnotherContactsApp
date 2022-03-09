@@ -91,13 +91,11 @@ class DeleteContactAlertController: UIAlertController {
     
     @objc func noPressedAction(view: UIButton) {
         self.dismiss(animated: true, completion: nil)
-        print("pressed NO")
         delegate?.noPressed(self)
     }
     
     @objc func yesPressedAction(view: UIButton) {
         self.dismiss(animated: true, completion: nil)
-        print("pressed YESS")
         delegate?.yesPressed(self)
     }
 }
