@@ -438,12 +438,10 @@ class ContactDetailController: UIViewController, RTCustomAlertDelegate {
     }
     
     @objc func deletePressed(view: UIButton) {
-        
-        let alert = DeleteContactAlertController()
+        let alert = DeleteContactAlertController(title: " Titleeee", message: "Message", preferredStyle: .alert)
         alert.alertDescription.text = "Are you sure you want to remove \(contactNameLabel.text ?? "Name") from your contacts?"
         alert.delegate = self
         present(alert, animated: true)
-        
     }
     
     func deleteContact() {

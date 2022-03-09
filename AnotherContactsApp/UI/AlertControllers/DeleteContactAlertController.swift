@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class DeleteContactAlertController: UIViewController {
+class DeleteContactAlertController: UIAlertController {
     
     weak var delegate: RTCustomAlertDelegate?
     
@@ -37,7 +37,6 @@ class DeleteContactAlertController: UIViewController {
         let view = UIButton(type: .system)
         view.setTitle("NO", for: .normal)
         view.setTitleColor(.black, for: .normal)
-        view.isUserInteractionEnabled = true
         view.addTarget(self, action: #selector(noPressedAction(view:)), for: .touchUpInside)
         
         return view
@@ -47,7 +46,6 @@ class DeleteContactAlertController: UIViewController {
         let view = UIButton(type: .system)
         view.setTitle("YES", for: .normal)
         view.setTitleColor(.red, for: .normal)
-        view.isUserInteractionEnabled = true
         view.addTarget(self, action: #selector(yesPressedAction(view:)), for: .touchUpInside)
         return view
     }()
@@ -59,11 +57,11 @@ class DeleteContactAlertController: UIViewController {
     
     private func setSubViews() {
         view.addSubview(alertView)
-
+        alertView.backgroundColor = .white
         alertView.snp.makeConstraints { make in
             make.height.equalTo(140)
             make.width.equalTo(310)
-            make.center.equalToSuperview()
+            make.edges.equalToSuperview()
         }
         
         alertView.addSubview(alertLabel)

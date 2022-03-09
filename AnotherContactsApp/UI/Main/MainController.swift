@@ -144,7 +144,7 @@ class MainController: UIViewController {
             make.centerX.equalToSuperview()
             make.top.equalTo(boxImage.snp.bottom).offset(5)
         }
-
+        
         view.addSubview(contactsTable)
         contactsTable.snp.makeConstraints { make in
             make.top.equalTo(topNavbarView.snp.bottom)
@@ -185,5 +185,16 @@ extension MainController: UITableViewDelegate, UITableViewDataSource {
         print(contacts[index])
         destVC.fill(model: contacts[index])
         navigationController?.pushViewController(destVC, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let contacts = realm.objects(Contact.self)
+            try! realm.write {
+                realm.delete(contacts[indexPath.row])
+            }
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            checkStatus()
+        }
     }
 }
