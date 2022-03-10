@@ -282,10 +282,11 @@ class MainController: UIViewController  {
 
 extension MainController: UITableViewDelegate, UITableViewDataSource, DCCustomAlertDelegate, UITextFieldDelegate {
     func yesAllPressed(_ alert: DeleteAllContactsAlertController) {
+        
         try! realm.write {
             realm.deleteAll()
         }
-        contactsTable.reloadData()
+//        contactsTable.reloadData()
         checkStatus()
     }
     
