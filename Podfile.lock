@@ -1,0 +1,35 @@
+PODS:
+  - PhoneNumberKit (3.3.4):
+    - PhoneNumberKit/PhoneNumberKitCore (= 3.3.4)
+    - PhoneNumberKit/UIKit (= 3.3.4)
+  - PhoneNumberKit/PhoneNumberKitCore (3.3.4)
+  - PhoneNumberKit/UIKit (3.3.4):
+    - PhoneNumberKit/PhoneNumberKitCore
+  - Realm (10.22.0):
+    - Realm/Headers (= 10.22.0)
+  - Realm/Headers (10.22.0)
+  - RealmSwift (10.22.0):
+    - Realm (= 10.22.0)
+  - SnapKit (5.0.1)
+
+DEPENDENCIES:
+  - PhoneNumberKit (~> 3.3)
+  - RealmSwift
+  - SnapKit
+
+SPEC REPOS:
+  trunk:
+    - PhoneNumberKit
+    - Realm
+    - RealmSwift
+    - SnapKit
+
+SPEC CHECKSUMS:
+  PhoneNumberKit: 441e8b26ec88d598e3591de9061eff18f5dd12e8
+  Realm: d9e4e5877095a6722145811f56fe89a531c9659d
+  RealmSwift: e4191b4b957fcfcbed23751ec65eec98f8173ab5
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
+
+PODFILE CHECKSUM: 394e5fae381aaee14f22533ab6b246a0d52c524d
+
+COCOAPODS: 1.11.2

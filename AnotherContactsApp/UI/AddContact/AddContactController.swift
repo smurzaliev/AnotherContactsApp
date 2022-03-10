@@ -156,10 +156,7 @@ class AddContactController: UIViewController {
                 try! realm.write {
                     realm.add(newContact)
                 }
-                
             }
-            
-            
             navigationController?.popViewController(animated: true)
         }
     }
@@ -271,6 +268,7 @@ extension AddContactController: UITextFieldDelegate {
         lastnameField.text = model.lastName
         numberField.text = model.number
     }
+    
 }
 
 class MyGBTextField: PhoneNumberTextField {

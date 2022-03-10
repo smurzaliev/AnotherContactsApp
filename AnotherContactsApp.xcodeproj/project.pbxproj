@@ -20,6 +20,7 @@
 		DD9E4EA127D4DF6B0097F6DF /* UIExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD9E4EA027D4DF6B0097F6DF /* UIExtension.swift */; };
 		DD9E4ECD27D61BB10097F6DF /* ContactDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD9E4ECC27D61BB10097F6DF /* ContactDetailController.swift */; };
 		DD9E4ED127D650980097F6DF /* DeleteContactAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD9E4ED027D650980097F6DF /* DeleteContactAlertController.swift */; };
+		DDD63AC227D9A25600BEF1A5 /* DeleteAllContactsAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD63AC127D9A25600BEF1A5 /* DeleteAllContactsAlertController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		DD9E4EA027D4DF6B0097F6DF /* UIExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIExtension.swift; sourceTree = "<group>"; };
 		DD9E4ECC27D61BB10097F6DF /* ContactDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailController.swift; sourceTree = "<group>"; };
 		DD9E4ED027D650980097F6DF /* DeleteContactAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteContactAlertController.swift; sourceTree = "<group>"; };
+		DDD63AC127D9A25600BEF1A5 /* DeleteAllContactsAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAllContactsAlertController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				DD9E4ED027D650980097F6DF /* DeleteContactAlertController.swift */,
+				DDD63AC127D9A25600BEF1A5 /* DeleteAllContactsAlertController.swift */,
 			);
 			path = AlertControllers;
 			sourceTree = "<group>";
@@ -280,6 +283,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDD63AC227D9A25600BEF1A5 /* DeleteAllContactsAlertController.swift in Sources */,
 				DD9E4E9727D1E2320097F6DF /* ContactCell.swift in Sources */,
 				DD9E4E8727D0835B0097F6DF /* MainController.swift in Sources */,
 				DD9E4E9B27D38FEA0097F6DF /* Contact.swift in Sources */,

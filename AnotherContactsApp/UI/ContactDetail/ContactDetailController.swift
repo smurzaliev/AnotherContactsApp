@@ -44,21 +44,6 @@ class ContactDetailController: UIViewController, RTCustomAlertDelegate {
         return view
     }()
     
-    private lazy var navBarSearchButton: UIButton = {
-        let view = UIButton(type: .system)
-        view.setImage(UIImage(named: "search"), for: .normal)
-        view.tintColor = .black
-        return view
-    }()
-    
-    private lazy var navBarMoreButton: UIButton = {
-        let view = UIButton(type: .system)
-        view.setImage(UIImage(named: "more_vert"), for: .normal)
-        view.tintColor = .black
-        
-        return view
-    }()
-    
     // Элементы экрана детали контакта
     
     private lazy var contactLogo: UIImageView = {
@@ -135,7 +120,7 @@ class ContactDetailController: UIViewController, RTCustomAlertDelegate {
         let view = UILabel()
         view.textColor = .lightGray
         view.font = .systemFont(ofSize: 12, weight: .regular)
-        view.text = "+99623232323"
+        view.text = "+996 232 323523"
         return view
     }()
     
@@ -165,7 +150,7 @@ class ContactDetailController: UIViewController, RTCustomAlertDelegate {
         let view = UILabel()
         view.textColor = .lightGray
         view.font = .systemFont(ofSize: 12, weight: .regular)
-        view.text = "+99623232323"
+        view.text = "+996 232 326323"
         return view
     }()
     
@@ -195,7 +180,7 @@ class ContactDetailController: UIViewController, RTCustomAlertDelegate {
         let view = UILabel()
         view.textColor = .lightGray
         view.font = .systemFont(ofSize: 12, weight: .regular)
-        view.text = "+99623232323"
+        view.text = "+996 232 323236"
         return view
     }()
     
@@ -225,7 +210,7 @@ class ContactDetailController: UIViewController, RTCustomAlertDelegate {
         let view = UILabel()
         view.textColor = .lightGray
         view.font = .systemFont(ofSize: 12, weight: .regular)
-        view.text = "+99623232323"
+        view.text = "+996 555 323235"
         return view
     }()
    
@@ -268,19 +253,7 @@ class ContactDetailController: UIViewController, RTCustomAlertDelegate {
             make.top.equalToSuperview().offset(5)
             make.left.equalTo(navBarBackButton.snp.right).offset(15)
         }
-        
-        topNavbarView.addSubview(navBarMoreButton)
-        navBarMoreButton.snp.makeConstraints { make in
-            make.right.equalToSuperview().offset(-10)
-            make.top.equalToSuperview().offset(5)
-        }
-        
-        topNavbarView.addSubview(navBarSearchButton)
-        navBarSearchButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(4)
-            make.right.equalTo(navBarMoreButton.snp.left).offset(-10)
-        }
-        
+     
         view.addSubview(contactLogo)
         contactLogo.snp.makeConstraints { make in
             make.height.width.equalTo(100)

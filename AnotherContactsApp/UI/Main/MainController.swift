@@ -9,16 +9,45 @@ import UIKit
 import SnapKit
 import RealmSwift
 
-class MainController: UIViewController {
+class MainController: UIViewController  {
     
     let realm = try! Realm()
+    var sortedContacts: [Contact] = []
     
     // Элементы NavigationBar
-    
+  
     private lazy var topNavbarView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        
+        return view
+    }()
+    
+    private lazy var searchField: UITextField = {
+        let view = UITextField()
+        view.delegate = self
+        view.placeholder = "Search..."
+        view.autocorrectionType = .no
+        view.isHidden = true
+        view.isEnabled = false
+        return view
+    }()
+    
+    private lazy var clearTextIcon: UIButton = {
+        let view = UIButton(type: .system)
+        view.setImage(UIImage(named: "close"), for: .normal)
+        view.tintColor = .black
+        view.isEnabled = false
+        view.isHidden = true
+        view.addTarget(self, action: #selector(clearTextPressed(view:)), for: .touchUpInside)
+        return view
+    }()
+    
+    private lazy var navbarBackButton: UIButton = {
+        let view = UIButton(type: .system)
+        view.setImage(UIImage(named: "arrowback"), for: .normal)
+        view.tintColor = .black
+        view.isHidden = true
+        view.addTarget(self, action: #selector(navbarBackPressed(view:)), for: .touchUpInside)
         return view
     }()
     
@@ -34,6 +63,7 @@ class MainController: UIViewController {
         let view = UIButton(type: .system)
         view.setImage(UIImage(named: "search"), for: .normal)
         view.tintColor = .black
+        view.addTarget(self, action: #selector(searchPressed(view:)), for: .touchUpInside)
         return view
     }()
     
@@ -41,9 +71,10 @@ class MainController: UIViewController {
         let view = UIButton(type: .system)
         view.setImage(UIImage(named: "more_vert"), for: .normal)
         view.tintColor = .black
-        
         return view
     }()
+    
+    //MARK: элементы таблицы и изображения
     
     private lazy var boxImage: UIImageView = {
         let view = UIImageView(image: UIImage(named: "boxImage"))
@@ -88,12 +119,81 @@ class MainController: UIViewController {
         navigationController?.pushViewController(AddContactController(), animated: true)
     }
     
+    @objc func searchPressed(view: UIButton) {
+        self.navBarLabel.isHidden = true
+        self.navbarBackButton.isHidden = false
+        self.searchField.isHidden = false
+        self.clearTextIcon.isHidden = false
+        self.navBarSearchButton.isHidden = true
+        self.searchField.isEnabled = true
+    }
+    
+    @objc func navbarBackPressed(view: UIButton) {
+        self.navBarLabel.isHidden = false
+        self.navbarBackButton.isHidden = true
+        self.searchField.isHidden = true
+        self.clearTextIcon.isHidden = true
+        self.navBarSearchButton.isHidden = false
+        self.clearTextIcon.isEnabled = false
+        self.searchField.isEnabled = false
+        
+        let contacts = realm.objects(Contact.self)
+        sortedContacts = []
+        for item in contacts {
+            sortedContacts.append(item)
+        }
+        self.contactsTable.reloadData()
+    }
+    
+    @objc func clearTextPressed(view: UIButton) {
+        searchField.text = ""
+        
+        navbarBackButton.isHidden = false
+        searchField.snp.remakeConstraints { make in
+            make.left.equalTo(navbarBackButton.snp.right).offset(18)
+            make.top.equalToSuperview().offset(5)
+            make.width.equalTo(240)
+        }
+        
+        let contacts = realm.objects(Contact.self)
+        sortedContacts = []
+        for item in contacts {
+            sortedContacts.append(item)
+        }
+        self.contactsTable.reloadData()
+    }
+    
     override func viewDidLoad() {
         setSubViews()
         checkStatus() // Проверка на наличие контактов в сохраненных и переключение элементов
+
+        let sortByAZ = UIAction(title: "Sort A-Z", image: UIImage(systemName: "arrow.up.arrow.down")) { (action) in
+            self.getSorted(sort: "AZ")
+            self.contactsTable.reloadData()
+        }
+        
+        let sortByZA = UIAction(title: "Sort Z-A", image: UIImage(systemName: "arrow.up.arrow.down")) { (action) in
+            self.getSorted(sort: "ZA")
+            self.contactsTable.reloadData()
+        }
+        
+        let deleteAll = UIAction(title: "Delete all", image: UIImage(systemName: "xmark.bin")) { (action) in
+            let alert = DeleteAllContactsAlertController(title: " Titleeee", message: "Message", preferredStyle: .alert)
+            alert.delegate = self
+            self.present(alert, animated: true)
+        }
+        
+        let menu = UIMenu(title: "", options: .displayInline, children: [sortByAZ, sortByZA , deleteAll])
+        navBarMoreButton.menu = menu
+        navBarMoreButton.showsMenuAsPrimaryAction = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        let contacts = realm.objects(Contact.self)
+        sortedContacts = []
+        for item in contacts {
+            sortedContacts.append(item)
+        }
         contactsTable.reloadData()
         checkStatus()
     }
@@ -104,25 +204,45 @@ class MainController: UIViewController {
         boxTitle.isHidden = contacts.count==0 ? false : true
         contactsTable.isHidden = contacts.count>0 ? false : true
     }
-    
+       
     private func setSubViews() {
         
         view.addSubview(topNavbarView)
         topNavbarView.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeArea.top)
             make.left.right.equalToSuperview()
-            make.height.equalTo(40)
+            make.height.equalTo(50)
         }
         
         topNavbarView.addSubview(navBarLabel)
         navBarLabel.snp.makeConstraints { make in
-            make.left.top.equalToSuperview().offset(8)
+            make.top.equalToSuperview().offset(4)
+            make.left.equalToSuperview().offset(10)
         }
         
+        topNavbarView.addSubview(navbarBackButton)
+        navbarBackButton.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(5)
+            make.left.equalToSuperview().offset(15)
+        }
+        
+        topNavbarView.addSubview(searchField)
+        searchField.snp.makeConstraints { make in
+            make.left.equalTo(navbarBackButton.snp.right).offset(18)
+            make.top.equalToSuperview().offset(5)
+            make.width.equalTo(240)
+        }
+
         topNavbarView.addSubview(navBarMoreButton)
         navBarMoreButton.snp.makeConstraints { make in
-            make.right.equalToSuperview().offset(-10)
+            make.right.equalToSuperview().offset(-13)
             make.top.equalToSuperview().offset(5)
+        }
+        
+        topNavbarView.addSubview(clearTextIcon)
+        clearTextIcon.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(8)
+            make.right.equalTo(navBarMoreButton.snp.left).offset(-10)
         }
         
         topNavbarView.addSubview(navBarSearchButton)
@@ -160,16 +280,73 @@ class MainController: UIViewController {
     }
 }
 
-extension MainController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension MainController: UITableViewDelegate, UITableViewDataSource, DCCustomAlertDelegate, UITextFieldDelegate {
+    func yesAllPressed(_ alert: DeleteAllContactsAlertController) {
+        try! realm.write {
+            realm.deleteAll()
+        }
+        contactsTable.reloadData()
+        checkStatus()
+    }
+    
+    func noAllPressed(_ alert: DeleteAllContactsAlertController) {
+        
+    }
+    
+    func getSorted(sort: String) {
         let contacts = realm.objects(Contact.self)
-        return contacts.count
+
+        if sort == "AZ" {
+            sortedContacts = contacts.sorted { (initial, next) -> Bool in
+                return initial.firstName.compare(next.firstName) == .orderedAscending
+                }
+        } else if sort == "ZA" {
+            sortedContacts = contacts.sorted { (initial, next) -> Bool in
+                  return initial.firstName.compare(next.firstName) == .orderedDescending
+                }
+        }
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.navbarBackButton.isHidden = true
+        self.searchField.snp.remakeConstraints { make in
+            make.left.equalToSuperview().offset(15)
+            make.top.equalToSuperview().offset(5)
+            make.width.equalTo(240)
+        }
+        self.clearTextIcon.isEnabled = true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        let contacts = realm.objects(Contact.self)
+        sortedContacts = []
+        for item in contacts {
+            sortedContacts.append(item)
+        }
+        
+        var searchString = ""
+        let searchText  = textField.text! + string
+            if searchText.count >= 0 {
+                sortedContacts = contacts.filter({ (result) -> Bool in
+                    searchString = result.firstName + " " + result.lastName
+                    return searchString.range(of: searchText, options: .caseInsensitive) != nil
+                })
+                contactsTable.reloadData()
+            }
+            else{
+                sortedContacts = []
+            }
+            return true
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return sortedContacts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = ContactCell()
-        let contacts = realm.objects(Contact.self)
-        let model = contacts[indexPath.row]
+        let model = sortedContacts[indexPath.row]
         cell.fill(model: model)
         return cell
     }
@@ -179,11 +356,10 @@ extension MainController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let contacts = realm.objects(Contact.self)
         let index = indexPath.row
         let destVC = ContactDetailController()
-        print(contacts[index])
-        destVC.fill(model: contacts[index])
+        print(sortedContacts[index])
+        destVC.fill(model: sortedContacts[index])
         navigationController?.pushViewController(destVC, animated: true)
     }
     
